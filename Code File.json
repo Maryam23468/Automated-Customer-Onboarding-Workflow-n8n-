@@ -1,0 +1,362 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "836db8d6-a74d-4b78-8cd6-b082fec5c140",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appWDluax6l437opv",
+          "mode": "list",
+          "cachedResultName": "Customer Onboarding",
+          "cachedResultUrl": "https://airtable.com/appWDluax6l437opv"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblwqX0PF3nZW3LKI",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appWDluax6l437opv/tblwqX0PF3nZW3LKI"
+        },
+        "filterByFormula": "{Onboarded} = \"no\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "dc546bbc-d23d-4eae-a2cf-855a8886f115",
+      "name": "Search records",
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "d8HIF5ggtsDxEa3q",
+          "name": "yum"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{$json[\"Email\"]}}",
+        "subject": "Welcome to Our Platform!",
+        "message": "=<p>Hi {{$json[\"Name\"]}},</p>  <p>Welcome to Our Platform! We are excited to have you onboard.</p>  <p>Your selected plan is: {{$json[\"Plan\"]}}.</p>  <p>If you have any questions, just reply to this email.</p>  <p>Best regards,<br>Your Team</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        640,
+        0
+      ],
+      "id": "d8ec7acf-e482-4fec-9b49-daf4e1e51a04",
+      "name": "Send a message",
+      "webhookId": "caa08d0f-75dd-4eab-a2ab-356ad6c5d837",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "rj7BhRUfXNN3vca6",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appWDluax6l437opv",
+          "mode": "list",
+          "cachedResultName": "Customer Onboarding",
+          "cachedResultUrl": "https://airtable.com/appWDluax6l437opv"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblwqX0PF3nZW3LKI",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appWDluax6l437opv/tblwqX0PF3nZW3LKI"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Onboarded": "yes",
+            "id": "={{ $('Search records').item.json.id }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Plan",
+              "displayName": "Plan",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Basic",
+                  "value": "Basic"
+                },
+                {
+                  "name": "Pro",
+                  "value": "Pro"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Onboarded",
+              "displayName": "Onboarded",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "yes",
+                  "value": "yes"
+                },
+                {
+                  "name": "no",
+                  "value": "no"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1264,
+        16
+      ],
+      "id": "3ce86611-c1d6-402c-bfe0-c54b5ee5a664",
+      "name": "Update record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "d8HIF5ggtsDxEa3q",
+          "name": "yum"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://webhook.site/1013d0c5-fce5-4e53-abcb-a55f581a87fe  ",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"Name\": $(\"Search records\").item.json.Name, \"Email\": $(\"Edit Fields\").item.json.Email, \"Plan\": $(\"Search records\").item.json.Plan } }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        864,
+        0
+      ],
+      "id": "281aa2ef-fdd9-4768-80e9-359b518b8fcc",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8cd3364b-d036-4794-a1dc-4aea98000c35",
+              "name": "Name ",
+              "value": "={{ $json[\"Name\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "57ea1b3d-d89f-4399-a166-d4b1f3a40772",
+              "name": "Email",
+              "value": "={{ $json.Email }}",
+              "type": "string"
+            },
+            {
+              "id": "85f6b301-ddb3-4b09-ac7b-30957fd6a1da",
+              "name": "Plan",
+              "value": "={{ $json.Plan }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "d7913d88-e26a-4239-9eaa-626d93e2c45d",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "sendTo": "f223066@cfd.nu.edu.pk",
+        "subject": "=New Customer Onboarded: {{ $('Edit Fields').item.json[\"Name \"] }}\n",
+        "message": "=<p>Hi Team,</p>\n<p>A new customer has been onboarded:</p>\n<ul>\n  <li><strong>Name:</strong> {{ $('Edit Fields').item.json[\"Name \"] }}</li>\n  <li><strong>Email:</strong> {{ $('Edit Fields').item.json[\"Email\"] }}</li>\n  <li><strong>Plan:</strong> {{ $('Edit Fields').item.json[\"Plan\"] }}</li>\n</ul>\n<p>Please proceed with the next steps if needed.</p>\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1072,
+        0
+      ],
+      "id": "a2a8bcb8-25dd-432d-8988-ea5f3517d975",
+      "name": "Send a message1",
+      "webhookId": "234fbe71-b296-420e-872d-0fd388e5c925",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "rj7BhRUfXNN3vca6",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Search records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Update record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "de516d2f-b956-46c9-9474-46356cc9ba87",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "17def896bb5cda64f462f6a10d9e0c1abe06e5ba21af0af4d2ce3a218029932e"
+  },
+  "id": "RIaFMH609lXGcsIb",
+  "tags": []
+}
