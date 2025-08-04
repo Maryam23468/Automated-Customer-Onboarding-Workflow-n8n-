@@ -3,6 +3,9 @@
 ## Overview
 This project implements an automated customer onboarding workflow using n8n. The workflow collects new customer data from forms or a CRM, triggers multi-step onboarding tasks, and integrates with various platforms to ensure a smooth onboarding experience.
 
+## Demo Video
+-**https://www.loom.com/share/2a203ba1b03944e39228f7f269aef509?sid=46881c5f-7be6-43b0-b645-18cae34e16e7**
+
 ## Features
 - **Automated Data Collection:** Collect new customer data automatically from forms or CRM systems.
 - **Multi-Step Onboarding:** Trigger tasks such as sending welcome emails, creating accounts, and notifying the support team via Slack or email.
